@@ -1,93 +1,38 @@
 package produtores.name;
 
-public class Produtor extends Thread {
+import java.util.Random;
 
-	private int ID;
-	private int Tier;
-	private Armazem armazem;
-	public Boolean TurnedOn = true;
-	public Produtor(int IDRecebido, int TierRecebido, Armazem armazemRecebido)
-	{
-		this.ID = IDRecebido;
-		this.Tier= TierRecebido;
-		this.armazem = armazemRecebido;		
-	}
+public class Produtor extends Thread {
+public int ID;
+public int Tier;
+public Armazem armazem;
+public boolean TurnedOn = true;
+public Random random;
+
+public Produtor(int IDRecebido, Armazem ArmazemRecebido) 
+{
 	
+this.ID = IDRecebido;
+this.armazem = ArmazemRecebido;
+random = new Random();
+
+}
 	
-	
-	public void run()
-	{
-		while(TurnedOn)
-		{
-			switch(Tier)
-			{
-				case 1:
-					
-					System.out.println("O produtor: "+ID+" Produziu");
-					armazem.AdicionaItem(ID, Tier, 1);
-				try {
-					Thread.sleep(500);
-				} catch (InterruptedException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-				}
-				
-					
-				break;
-				
-				
-				
-				case 2:
-					
-					
-				break;
-				
-				
-				case 3:
-					
-					
-					
-				break;
-			}
+public void run()
+{
+	while(TurnedOn)
+	{ 
+		System.out.println("O produtor:"+this.ID+ " Produziu");
+		int producao = random.nextInt(10);
+		armazem.AddItem(this.ID, producao);
+		try {
+			Thread.sleep(100);
+		} catch (InterruptedException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
 		}
 	}
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	public int GetID()
-	{
-		System.out.println(this.ID);
-		return this.ID;
-	}
-	public int GetTier()
-	{
-		System.out.println("O tier do produtor [ "+ID+" ] é : " +Tier );
-		return this.Tier;
-	}
+}
 	
 	
 }

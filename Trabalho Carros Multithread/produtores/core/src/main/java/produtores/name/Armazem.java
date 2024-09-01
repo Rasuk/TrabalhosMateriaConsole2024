@@ -1,61 +1,118 @@
 package produtores.name;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.concurrent.Semaphore;
 
 public class Armazem {
-public int Capacidade1=10,Capacidade2=10,Capacidade3=10;
 
-public Semaphore semaphore = new Semaphore(2);
+public List<Integer> Armazem1;
+public int Capacidade1 = 10;
+public Object ProducerOBJ;
+public Object ConsumerOBJ;
+public Semaphore semaphore;
+
+	
+	public Armazem() {
+	Armazem1 = new ArrayList<>();
+	ProducerOBJ = new Object();
+	ConsumerOBJ = new Object();
+	semaphore = new Semaphore(1);
+	}
 
 
-
-
-
-
-
-public void AdicionaItem(int IDRecebido,int TierRecebido,int ProducaoRecebida)
-{
-	try {
-		semaphore.acquire();
-		if(TierRecebido==1)
+	public void AddItem(int IDRecebido, int ProducaoRecebida)
+	{
+		synchronized(ProducerOBJ) 
 		{
-			Capacidade1-=ProducaoRecebida;
-			System.out.println("O produtor: "+IDRecebido+" depositou: "+ ProducaoRecebida+"! Agora o espaço de armazenamento de material Tier 1 é igual à"+Capacidade1 );
+			if(Capacidade1<Armazem1.size())
+			{
+			System.out.println("Armazem Cheio, entrando em descanso");
+			try {
+				ProducerOBJ.wait();
+				} catch (InterruptedException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+				}
+			}
+			
+			else
+			{
+				try {
+					semaphore.acquire();
+					Capacidade1--;
+					Armazem1.add(ProducaoRecebida);
+					System.out.println("O Produtor: "+IDRecebido+" Depositou: "+ProducaoRecebida);
+				} catch (InterruptedException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+				semaphore.release();
+				synchronized(ConsumerOBJ)
+				{
+					ConsumerOBJ.notifyAll();
+				}
+				
+			}
+			
 		}
-	} catch (InterruptedException e) {
-		// TODO Auto-generated catch block
-		e.printStackTrace();
+		
+		
+		
+		
+		
+		
+	
 	}
-	finally {
-		semaphore.release();
+
+
+	public void RemoveItem(int IDRecebido)
+	{
+			synchronized(ConsumerOBJ)
+			{
+				if(Armazem1.size()<=0)
+				{
+					try {
+						ConsumerOBJ.wait();
+						System.out.println("Não há Itens para Consumir entrando em descanso");
+					} catch (InterruptedException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					}
+				}
+				else
+				{
+					try {
+						semaphore.acquire();
+						Capacidade1++;
+						Armazem1.removeFirst();
+						System.out.println("O Consumidor: "+ IDRecebido+" Consumiu");
+						synchronized(ProducerOBJ) 
+						{
+							ProducerOBJ.notifyAll();
+						}
+						
+					} catch (InterruptedException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					}
+					semaphore.release();
+					
+				}
+			}
+	
 	}
-	
-	
-	
-	
-	
+		
+
+
+
+
+
+
+
+
+
+
+
 }
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-}
