@@ -15,6 +15,8 @@ public Texture ProdutorTexture;
 public Sprite ProdutorSprite;
 public float posX,posY;
 public float speed;
+private int producao;
+private byte Caso;
 public Produtor(int IDRecebido, Armazem ArmazemRecebido) 
 {
 	
@@ -32,11 +34,22 @@ public void run()
 {
 	while(TurnedOn)
 	{ 
-		System.out.println("O produtor:"+this.ID+ " Produziu");
-		int producao = random.nextInt(10);
-		armazem.AddItem(this.ID, producao);
+		MoveProdutor();
+		if(posX>=850)
+		{
+			System.out.println("O produtor:"+this.ID+ " Produziu");
+		producao = random.nextInt(10);
+		Caso=2;
+		}
+		else if(posX<=750)
+		{
+			armazem.AddItem(this.ID, producao);
+			Caso = 1;
+		}
+		
 		try {
-			Thread.sleep(1000);
+			//Caso a simulação quebre: mudar o valor para 1000
+			Thread.sleep(500);
 		} catch (InterruptedException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -46,6 +59,15 @@ public void run()
 	
 	public void MoveProdutor()
 	{
+		switch(Caso)
+		{
+		case 1:
+			posX+=10.4f*speed+10;
+		break;
+		case 2:
+			posX-=10.4f*speed+10;
+		break;
+		}
 		
 	}
 }

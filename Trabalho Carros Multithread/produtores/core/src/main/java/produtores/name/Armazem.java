@@ -90,13 +90,14 @@ public Consumidor[] consumidor = new Consumidor[3];
 				else
 				{
 					try {
+					
+						semaphore.acquire();
+						Armazem1.removeFirst();
+						Capacidade1++;
 						if(this.consumidor[IDRecebido].posX >=500)
 						{
 							this.consumidor[IDRecebido].posX = 0.0f;
 						}
-						semaphore.acquire();
-						Armazem1.removeFirst();
-						Capacidade1++;
 						System.out.println("O Consumidor: "+ IDRecebido+" Consumiu");
 						synchronized(ProducerOBJ) 
 						{
