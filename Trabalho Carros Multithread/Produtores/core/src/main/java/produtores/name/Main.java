@@ -12,11 +12,8 @@ import com.badlogic.gdx.graphics.g2d.Sprite;
 public class Main extends ApplicationAdapter {
     private SpriteBatch batch;
     private Texture image;
-    private Texture loonie;
-    private Texture kitty;
-    private Sprite sprite;
-    public Produtor produtor,produtor2,produtor3,produtor4,produtor5,produtor6;
-    public Consumidor[]Consumidores = new Consumidor[4];
+    public Produtor[] produtores = new Produtor[2];
+    public Consumidor[]Consumidores = new Consumidor[3];
     float posx, posy;
     Armazem armazem = new Armazem(this.Consumidores);  
  
@@ -28,31 +25,21 @@ public class Main extends ApplicationAdapter {
         batch = new SpriteBatch();
         posx = 0;
         posy= 0;
-        loonie = new Texture("loona.png");
-        kitty = new Texture("kitty.png");
-        sprite = new Sprite(kitty);
+
         
-        produtor = new Produtor(1,armazem);
-        produtor2 = new Produtor(2,armazem);
+       
         for(int i =0;i<3;i++)
         {
         	Consumidores[i] = new Consumidor(i,armazem);
         	Consumidores[i].start();
         }
-      
-      //  produtor3=new Produtor(3,1,armazem);
-      //  produtor4 = new Produtor(4,1,armazem);
-       // produtor5 = new Produtor(5,1,armazem);
-       // produtor6=new Produtor(6,1,armazem);
-        produtor.start();
-        produtor2.start();
-       
-      //  produtor3.start();
-      //  produtor4.start();
-      //  produtor5.start();
-      //  produtor6.start();
-       
-        //image = new Texture("libgdx.png");
+      for(int i =0;i<2;i++)
+      {
+    	  produtores[i] = new Produtor(i,armazem);
+    	  produtores[i].start();
+      }
+     
+  
         image = new Texture("bg.png");
         
     }
@@ -67,10 +54,13 @@ public class Main extends ApplicationAdapter {
        for(int i = 0; i<3; i++)
        {
     	  batch.draw(Consumidores[i].sprite,Consumidores[i].posX, Consumidores[i].posY,120,120);
-    	//Consumidores[i].MoveConsumidor();
+ 
        } 
-
-        batch.draw(sprite,posx,posy,100,100); 
+       for(int i=0; i<2;i++)
+       {
+    	   batch.draw(produtores[i].ProdutorSprite,produtores[i].posX,produtores[i].posY,90,90);
+       }
+    
         
         
         

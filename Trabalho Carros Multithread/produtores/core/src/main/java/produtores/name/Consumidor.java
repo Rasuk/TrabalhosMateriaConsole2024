@@ -1,5 +1,7 @@
 package produtores.name;
 
+import java.util.Random;
+
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
@@ -11,16 +13,20 @@ public int ID;
 public Armazem Armazem;
 public boolean TurnedOn = true;
 public Texture ConsumerTexture;
+public Random randomSpeed;
 public Sprite sprite;
 public float posX,posY;
+public float speed;
 	public Consumidor(int IDRecebido, Armazem armazemRecebido)
 	{
 		this.ID = IDRecebido;
 		this.Armazem = armazemRecebido;
 		ConsumerTexture = new Texture("Loona.png");
 		sprite = new Sprite(ConsumerTexture);
+		randomSpeed = new Random();
 		posX=0; 
 		posY=0;
+		speed = randomSpeed.nextFloat(2.0f);
 	}
 	
 	public void run()
@@ -50,7 +56,7 @@ public float posX,posY;
 		
 		
 		
-			posX+=10.4f+2*0.5f;
+			posX+=10.4f*speed;
 		
 		
 		

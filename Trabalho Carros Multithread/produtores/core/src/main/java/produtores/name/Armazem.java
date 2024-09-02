@@ -43,7 +43,7 @@ public Consumidor[] consumidor = new Consumidor[3];
 				try {
 					semaphore.acquire();
 					Capacidade1--;
-					Armazem1.add(ProducaoRecebida);
+					Armazem1.add(ProducaoRecebida);	
 					System.out.println("O Produtor: "+IDRecebido+" Depositou: "+ProducaoRecebida);
 				} catch (InterruptedException e) {
 					// TODO Auto-generated catch block
@@ -90,9 +90,13 @@ public Consumidor[] consumidor = new Consumidor[3];
 				else
 				{
 					try {
+						if(this.consumidor[IDRecebido].posX >=500)
+						{
+							this.consumidor[IDRecebido].posX = 0.0f;
+						}
 						semaphore.acquire();
-						Capacidade1++;
 						Armazem1.removeFirst();
+						Capacidade1++;
 						System.out.println("O Consumidor: "+ IDRecebido+" Consumiu");
 						synchronized(ProducerOBJ) 
 						{
