@@ -26,7 +26,7 @@ public void run()
 		int producao = random.nextInt(10);
 		armazem.AddItem(this.ID, producao);
 		try {
-			Thread.sleep(100);
+			Thread.sleep(1000);
 		} catch (InterruptedException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();

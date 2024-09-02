@@ -11,13 +11,15 @@ public int Capacidade1 = 10;
 public Object ProducerOBJ;
 public Object ConsumerOBJ;
 public Semaphore semaphore;
-
+public Consumidor[] consumidor = new Consumidor[3];
 	
-	public Armazem() {
+	public Armazem(Consumidor[] consumidorRecebido) {
 	Armazem1 = new ArrayList<>();
 	ProducerOBJ = new Object();
 	ConsumerOBJ = new Object();
 	semaphore = new Semaphore(1);
+	consumidor = consumidorRecebido;
+	
 	}
 
 
@@ -73,7 +75,12 @@ public Semaphore semaphore;
 				if(Armazem1.size()<=0)
 				{
 					try {
+						if(this.consumidor[IDRecebido].posX >=500)
+						{
+							this.consumidor[IDRecebido].posX = 0.0f;
+						}
 						ConsumerOBJ.wait();
+						
 						System.out.println("Não há Itens para Consumir entrando em descanso");
 					} catch (InterruptedException e) {
 						// TODO Auto-generated catch block
