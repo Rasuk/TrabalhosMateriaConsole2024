@@ -2,6 +2,7 @@ package produtores.name;
 
 import com.badlogic.gdx.ApplicationAdapter;
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
@@ -16,8 +17,7 @@ public class Main extends ApplicationAdapter {
     public Consumidor[]Consumidores = new Consumidor[3];
     float posx, posy;
     Armazem armazem = new Armazem(this.Consumidores);  
- 
-
+    public Caixa caixa;
 
     boolean v = true;
     @Override
@@ -25,17 +25,17 @@ public class Main extends ApplicationAdapter {
         batch = new SpriteBatch();
         posx = 0;
         posy= 0;
-
-        
+     
+        caixa = new Caixa(this.armazem);
        
         for(int i =0;i<3;i++)
         {
-        	Consumidores[i] = new Consumidor(i,armazem);
+        	Consumidores[i] = new Consumidor(i,armazem,this.caixa);
         	Consumidores[i].start();
         }
       for(int i =0;i<2;i++)
       {
-    	  produtores[i] = new Produtor(i,armazem);
+    	  produtores[i] = new Produtor(i,armazem,this.caixa);
     	  produtores[i].start();
       }
      
@@ -48,9 +48,14 @@ public class Main extends ApplicationAdapter {
     public void render() {
     	
         ScreenUtils.clear(0.15f, 0.15f, 0.2f, 1f);
+       
         
         batch.begin();
-        batch.draw(image, 0, 0,1280,720);  
+        batch.draw(image, 0, 0,1280,720); 
+       
+      
+       // batch.draw(LoonieDs,500,200,200,200);
+        
        for(int i = 0; i<3; i++)
        {
     	  batch.draw(Consumidores[i].sprite,Consumidores[i].posX, Consumidores[i].posY,120,120);
@@ -60,7 +65,11 @@ public class Main extends ApplicationAdapter {
        {
     	   batch.draw(produtores[i].ProdutorSprite,produtores[i].posX,produtores[i].posY,90,90);
        }
-    
+       for(int i=0; i<caixa.CaixaSprite.length;i++)
+       {
+    	   caixa.CaixaSprite[i].draw(batch);
+       }
+       
         
         
         
@@ -74,10 +83,5 @@ public class Main extends ApplicationAdapter {
         image.dispose();
     }
     
-    public void moveloona()
-    {
-    	
-    		posx+=0.7f;
-    		    	
-    }
+   
 }

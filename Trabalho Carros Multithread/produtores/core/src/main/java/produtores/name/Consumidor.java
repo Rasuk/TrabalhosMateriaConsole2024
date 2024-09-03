@@ -17,7 +17,8 @@ public Random randomSpeed;
 public Sprite sprite;
 public float posX,posY;
 public float speed;
-	public Consumidor(int IDRecebido, Armazem armazemRecebido)
+Caixa caixa;
+	public Consumidor(int IDRecebido, Armazem armazemRecebido, Caixa caixarcb)
 	{
 		this.ID = IDRecebido;
 		this.Armazem = armazemRecebido;
@@ -27,6 +28,7 @@ public float speed;
 		posX=0; 
 		posY=0;
 		speed = randomSpeed.nextFloat(2.0f);
+		caixa = caixarcb;
 	}
 	
 	public void run()
@@ -40,6 +42,8 @@ public float speed;
 			if(posX>=500)
 			{
 				Armazem.RemoveItem(this.ID);
+				
+				caixa.ConsumerMeth();
 			}
 		MoveConsumidor();
 			try {

@@ -17,7 +17,8 @@ public float posX,posY;
 public float speed;
 private int producao;
 private byte Caso;
-public Produtor(int IDRecebido, Armazem ArmazemRecebido) 
+public Caixa caixa;
+public Produtor(int IDRecebido, Armazem ArmazemRecebido, Caixa caixaRCB) 
 {
 	
 this.ID = IDRecebido;
@@ -28,6 +29,7 @@ ProdutorTexture = new Texture("kitty.png");
 ProdutorSprite = new Sprite(ProdutorTexture);
 posX= 750;
 posY= 10;
+caixa = caixaRCB;
 }
 	
 public void run()
@@ -44,6 +46,7 @@ public void run()
 		else if(posX<=750)
 		{
 			armazem.AddItem(this.ID, producao);
+			caixa.ProdutorMeth();
 			Caso = 1;
 		}
 		
